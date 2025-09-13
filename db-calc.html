@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dB Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9fafb; color: #111827; margin: 0; padding: 2rem; }
+    h1 { font-size: 1.8rem; margin-bottom: 1rem; }
+    .calc { max-width: 500px; background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    input { width: 100%; padding: 0.5rem; font-size: 1rem; margin-bottom: 1rem; border: 1px solid #d1d5db; border-radius: 6px; }
+    button { margin: 0.25rem 0.25rem 0.25rem 0; padding: 0.6rem 1rem; font-size: 1rem; border: none; border-radius: 6px; background: #111827; color: white; cursor: pointer; }
+    button:hover { background: #1f2937; }
+    #output { margin-top: 1rem; font-size: 1.1rem; color: #111827; }
+  </style>
+</head>
+<body>
+  <h1>dB Calculator</h1>
+  <div class="calc">
+    <label for="input">Enter Value:</label>
+    <input id="input" type="number" placeholder="Enter a number" />
+
+    <div>
+      <button id="dbm">dBm → mW</button>
+      <button id="mtd">mW → dBm</button>
+      <button id="ctd">Convert to dB</button>
+      <button id="ftw">Freq → Wavelength</button>
+      <button id="wtf">Wavelength → Freq</button>
+    </div>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    document.getElementById("dbm").addEventListener('click', function(){
+      var input=document.getElementById("input").value;
+      if(!input) return;
+      var mw=(10**(0.1*(input)));
+      document.getElementById("output").innerHTML="<b>" +mw+ " mW";
+      document.getElementById('input').value="";
+    })
+
+    document.getElementById("mtd").addEventListener('click', function(){
+      var input=document.getElementById("input").value;
+      if(!input) return;
+      var dbm=10*Math.log10(input); /* input has to be in mW */
+      document.getElementById("output").innerHTML="<b>" +dbm+ " dBm";
+      document.getElementById('input').value="";
+    })
+
+    document.getElementById("ctd").addEventListener('click', function(){
+      var input=document.getElementById("input").value;
+      if(!input) return;
+      var db=10*Math.log10(1000/input);
+      document.getElementById("output").innerHTML="<b>" +db+ " dB";
+      document.getElementById('input').value="";
+    })
+
+    const c=299792458;
+
+    document.getElementById("ftw").addEventListener('click', function(){
+      var input=document.getElementById("input").value;
+      if(!input) return;
+      var wavelength=c/input;
+      document.getElementById("output").innerHTML= "<b>" +input+ ": " +wavelength+ " m";
+      document.getElementById('input').value="";
+    })
+
+    document.getElementById("wtf").addEventListener('click', function(){
+      var input=document.getElementById("input").value;
+      if(!input) return;
+      var freq=c/input;
+      document.getElementById("output").innerHTML= "<b>" +input+ ": " +freq+ " Hz";
+      document.getElementById('input').value="";
+    })
+  </script>
+</body>
+</html>
